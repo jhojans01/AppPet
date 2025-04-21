@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bubbleReceivedColor"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- FOTO + INFO -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="@drawable/rounded_card_bg"
+            android:elevation="4dp"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:id="@+id/ivPetImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/perritico"
+                android:scaleType="centerCrop"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="@color/white"
+                android:contentDescription="Imagen de la mascota" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvDetailName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nombre"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorAccent"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvDetailSpecies"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Especie:"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:id="@+id/tvDetailBreed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Raza:"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:id="@+id/tvDetailAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edad:"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- SALUD Y COMPORTAMIENTO -->
+        <TextView
+            android:text="🩺 Salud y Comportamiento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_card_bg"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp">
+
+            <Button
+                android:id="@+id/btnViewVaccines"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="💉 Ver Vacunas"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+            <Button
+                android:id="@+id/btnControlPeso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="⚖️ Control de Peso"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btnVerDieta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🍽️ Ver Dieta Asignada"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btnVerDiagnostico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📋 Ver Diagnóstico"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btnVisitasVeterinario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📅 Registro de Visitas"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btnBehavior"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🐾 Registro de Comportamiento"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <!-- GEOLOCALIZACIÓN -->
+        <TextView
+            android:text="📍 Geolocalización y Collar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_card_bg"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp">
+
+            <Button
+                android:id="@+id/btnVerCollar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📍 Ver Collar" />
+
+            <TextView
+                android:id="@+id/tvCollarId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Collar: Sin asignar"
+                android:layout_marginTop="8dp"
+                android:textStyle="italic"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/btnAsignarCollar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Asignar Collar"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <!-- VETERINARIO -->
+        <TextView
+            android:text="👩‍⚕️ Asignación de Veterinario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnElegirVet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Elegir Veterinario"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+        <!-- Asignación de Cuidador -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🧑‍🏫 Asignación de Cuidador"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:textColor="@color/colorAccent" />
+
+        <Button
+            android:id="@+id/btnElegirCuidador"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ELEGIR CUIDADOR"
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="8dp" />
+
+
+    </LinearLayout>
+</ScrollView>

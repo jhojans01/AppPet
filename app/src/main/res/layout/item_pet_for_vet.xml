@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    app:cardBackgroundColor="@android:color/white">
+
+    <LinearLayout
+        android:padding="16dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Icono de mascota -->
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/perritico"
+            android:contentDescription="Mascota"
+            android:layout_marginEnd="16dp" />
+
+        <!-- Datos -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tvNombreMascota"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:textColor="#333333" />
+
+            <TextView
+                android:id="@+id/tvEspecieMascota"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Especie"
+                android:textSize="14sp"
+                android:textColor="#777777" />
+
+            <TextView
+                android:id="@+id/tvRazaMascota"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Raza"
+                android:textSize="14sp"
+                android:textColor="#777777" />
+
+            <TextView
+                android:id="@+id/tvEdadMascota"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edad"
+                android:textSize="14sp"
+                android:textColor="#777777" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

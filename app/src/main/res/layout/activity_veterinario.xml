@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <!-- RecyclerView para mascotas -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewVet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/fabChatVet"
+        android:padding="8dp"
+        android:clipToPadding="false"/>
+
+
+    <!-- Botones flotantes -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabChatVet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="16dp"
+        android:src="@drawable/chat"
+        app:backgroundTint="@color/colorAccent"
+        app:tint="@android:color/white" />
+
+
+</RelativeLayout>

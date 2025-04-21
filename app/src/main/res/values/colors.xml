@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#2D383F</color>
+    <color name="colorPrimaryDark">#2D383F</color>
+    <color name="colorAccent">#89C34A</color>
+    <color name="background">#FEEFE6</color>
+    <color name="green">#4CAF50</color>
+    <color name="red">#F00808</color>
+    <color name="purple">#BA08F0</color>
+    <color name="purple_500">#9C27B0</color>
+    <color name="red_500">#F44336</color>
+    <color name="btn_oscuro">#2C2C2C</color> <!-- o el color que tú quieras -->
+
+
+    <!-- Nuevos recursos agregados -->
+    <color name="colorPrimaryVariant">#1F2A30</color> <!-- Ajusta el valor según tu diseño -->
+    <color name="colorSecondary">#89C34A</color>       <!-- Por ejemplo, un amarillo -->
+    <color name="colorSecondaryVariant">#89C34A</color>  <!-- Un tono más oscuro del amarillo -->
+
+    <!-- Fondo general del chat -->
+    <color name="chatBackground">#FFF8E1</color> <!-- Un amarillo pastel claro -->
+
+    <!-- Burbuja de mensajes enviados -->
+    <color name="bubbleSentColor">#FFB74D</color> <!-- Naranja pastel -->
+
+    <!-- Burbuja de mensajes recibidos -->
+    <color name="bubbleReceivedColor">#C5E1A5</color> <!-- Verde pastel -->
+
+</resources>

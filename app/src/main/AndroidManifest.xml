@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.apppet"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Permiso de Internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Permisos para ubicación -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- Permiso para notificaciones (Android 13+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
+
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logo"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppPet"
+        tools:targetApi="31"
+        android:usesCleartextTraffic="true">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAmGPvXgkYkbF7EP1GCkfyTflni9U-l2Ts" />
+
+        <!-- Login -->
+        <activity
+            android:name=".loginUsuario.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Registro -->
+        <activity android:name=".registroUsuario.SignupActivity" />
+
+        <!-- Usuario propietario -->
+        <activity android:name=".MainActivity" />
+
+        <!-- Veterinario -->
+        <activity android:name=".VeterinarioActivity" />
+
+        <!-- Actividad para listado de veterinarios (nuevo para el chat) -->
+        <activity android:name=".VeterinarianListActivity" />
+
+        <!-- Chat -->
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".ChatListActivity" />
+
+        <!-- Funcionalidades mascota -->
+        <activity android:name=".PetDetailActivity" />
+        <activity android:name=".VaccinesActivity" />
+        <activity android:name=".WeightActivity" />
+        <activity android:name=".BehaviorActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".VisitsActivity" />
+        <activity android:name=".MapActivity" />
+
+        <!-- Control de Dieta -->
+        <activity android:name=".DietControlActivity" />
+
+        <!-- Cuidador -->
+        <activity android:name=".CuidadoMascotaActivity"/>
+        <activity android:name=".ActividadFisicaActivity" />
+
+
+        <!-- Admin -->
+        <activity android:name=".admin.AdminDashboardActivity" />
+        <activity android:name=".admin.EstadisticasActivity" />
+        <activity android:name=".DetalleMascotaVetActivity" />
+        <activity android:name=".RegistrarMedicamentoActivity" />
+        <receiver android:name=".notifications.VisitReminderReceiver" />
+
+
+        <receiver android:name=".AlarmaReceiver"
+
+/>
+
+
+
+    </application>
+</manifest>
+

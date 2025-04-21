@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Tema base de la aplicación -->
+    <style name="Base.Theme.AppPet" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryContainer">@color/colorPrimaryVariant</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryContainer">@color/colorSecondaryVariant</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:fontFamily">@font/poppins</item>
+    </style>
+
+    <style name="Theme.AppPet" parent="Base.Theme.AppPet">
+        <!-- Ajustes adicionales si deseas -->
+    </style>
+
+    <style name="ThemeOverlay.AppPet.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="android:background">@color/white</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+    <style name="CustomAlertDialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="android:background">@drawable/rounded_dialog_bg</item>
+    </style>
+
+</resources>
+

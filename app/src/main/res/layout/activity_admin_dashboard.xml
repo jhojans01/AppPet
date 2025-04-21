@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutAdmin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".admin.AdminDashboardActivity">
+
+    <!-- Barra superior (MaterialToolbar) -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/adminToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:backgroundTint="@color/colorAccent"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+        android:title="@string/gestion_de_usuarios"
+        android:titleTextColor="@android:color/white"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:navigationIconTint="@android:color/white" />
+
+    <!-- RecyclerView para mostrar la lista de usuarios -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewUsers"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:clipToPadding="false"
+        android:paddingBottom="80dp" />
+
+    <!-- Botón flotante para agregar un nuevo usuario -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        android:contentDescription="@color/colorAccent"
+        android:src="@drawable/ic_add"
+        app:backgroundTint="@color/colorAccent"
+        app:tint="@android:color/white" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabEstadisticas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="16dp"
+        android:contentDescription="Estadísticas"
+        android:src="@drawable/ic_chart"
+        app:backgroundTint="@color/colorAccent"
+        app:tint="@android:color/white" />
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

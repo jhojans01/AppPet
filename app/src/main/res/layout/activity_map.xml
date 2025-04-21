@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_map"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapActivity">
+
+    <!-- Fragmento del mapa -->
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Botón de configuración de geocerca -->
+    <Button
+        android:id="@+id/btnSetGeofence"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Zona Segura"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@android:color/white" />
+
+    <!-- Botón flotante principal -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="20dp"
+        android:src="@drawable/ic_menu"
+        app:backgroundTint="@color/colorAccent" />
+
+    <!-- FAB para agregar punto -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnAgregarPuntoManual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="100dp"
+        android:layout_marginEnd="20dp"
+        android:visibility="gone"
+        android:src="@drawable/ic_add_location"
+        app:backgroundTint="@color/colorAccent"
+        android:contentDescription="Agregar Punto" />
+
+    <!-- FAB para mostrar últimas 5 ubicaciones -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnUltimasUbicaciones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="180dp"
+        android:layout_marginEnd="20dp"
+        android:visibility="gone"
+        android:src="@drawable/ic_history"
+        app:backgroundTint="@color/colorAccent"
+        android:contentDescription="Ver últimas ubicaciones" />
+
+</RelativeLayout>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bubbleReceivedColor"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:id="@+id/ivPetImage"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_pet_placeholder"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/tvNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvEspecie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Especie"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvRaza"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Raza"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvEdad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edad"
+            android:layout_marginBottom="24dp" />
+
+        <Button
+            android:id="@+id/btnAgregarActividad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="💪 Agregar Actividad Física"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+</ScrollView>

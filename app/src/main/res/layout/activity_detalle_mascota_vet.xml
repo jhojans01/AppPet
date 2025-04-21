@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@color/bubbleReceivedColor"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/rounded_card_bg"
+        android:padding="16dp">
+        <ImageView
+            android:id="@+id/ivMascotaDetalle"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/perritico"
+            android:scaleType="centerCrop"
+            android:layout_marginEnd="16dp"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvNombreDetalle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#333333" />
+
+            <TextView
+                android:id="@+id/tvEspecieDetalle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Especie:"
+                android:textSize="16sp"
+                android:textColor="#444444" />
+
+            <TextView
+                android:id="@+id/tvRazaDetalle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Raza:"
+                android:textSize="16sp"
+                android:textColor="#444444" />
+
+            <TextView
+                android:id="@+id/tvEdadDetalle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edad:"
+                android:textSize="16sp"
+                android:textColor="#444444" />
+        </LinearLayout>
+    </LinearLayout>
+        <!-- Botón para registrar medicamentos -->
+    <Button
+        android:id="@+id/btnRegistrarMedicamento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="➕ Registrar Medicamento"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@drawable/bg_boton_medicamento"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="8dp"
+        android:elevation="6dp" />
+    <Button
+        android:id="@+id/btnAsignarDieta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🍽️ Asignar Dieta"
+        android:layout_marginTop="12dp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+
+</LinearLayout>
+
+

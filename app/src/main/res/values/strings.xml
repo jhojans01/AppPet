@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AppPet</string>
+    <string name="desc_user_icon">Ícono de usuario</string>
+    <string name="gestion_de_usuarios">Gestión de Usuarios</string>
+
+    <string name="agregar_usuario">Agregar Usuario</string>
+    <string name="nombre">Nombre</string>
+    <string name="email">Correo Electrónico</string>
+    <string name="contraseña">Contraseña</string>
+    <string name="desc_edit_icon">Ícono de edición</string>
+    <string name="editar_usuario">Editar Usuario</string>
+    <string name="cuidador">Cuidador</string>
+    <string name="agregar_mascota">Agregar Mascota</string>
+
+
+    <string name="desc_edit_pet_icon">Ícono de edición de mascota</string>
+    <string name="editar_mascota">Editar Mascota</string>
+    <string name="especie">Especie</string>
+    <string name="raza">Raza</string>
+    <string name="edad">Edad</string>
+    <string name="desc_pet_image">Imagen de mascota</string>
+    <string name="agregar_vacuna">Agregar la vacuna</string>
+    <string name="fecha_aplicacion">Fecha de aplicacion de la vacuna</string>
+    <string name="desc_vaccine_icon">Icono de Vacuna</string>
+    <string name="fecha_formato">Fecha de peso</string>
+    <string name="desc_weight_icon">Icono de peso</string>
+    <string name="registrar_peso">Registrar peso</string>
+    <string name="peso_kg">Peso en kilogramos</string>
+    <string name="registrar_comportamiento">Registrar comportamiento</string>
+    <string name="desc_behavior_icon">Comportamiento</string>
+    <string name="desc_profile_pic">editar perfil usuario</string>
+    <string name="add_visit">Visitas a vete</string>
+    <string name="vias_medicamento">Selecciona una vía de administración</string>
+
+    <string-array name="vias_medicamento">
+        <item>Oral</item>
+        <item>Tópica</item>
+        <item>Intravenosa</item>
+        <item>Intramuscular</item>
+        <item>Oftálmica</item>
+    </string-array>
+
+
+
+
+
+</resources>
+
+
+
+
