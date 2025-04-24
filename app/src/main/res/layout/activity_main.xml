@@ -53,6 +53,16 @@
         android:src="@drawable/chat"
         app:backgroundTint="@color/colorAccent"
         app:tint="@android:color/white"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabLaboratorio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_marginBottom="80dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_school"
+        app:backgroundTint="@color/green" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apppet.adapters.PetAdapter;
+import com.example.apppet.laboratorio.TopLevelActivity;
 import com.example.apppet.models.Pet;
 import com.example.apppet.network.MascotaService;
 import com.example.apppet.network.RetrofitClient;
@@ -70,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
         btnProfile = findViewById(R.id.btnProfile);
         btnProfile.setVisibility(userRole.equalsIgnoreCase("propietario") ? View.VISIBLE : View.GONE);
         btnProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
+        FloatingActionButton fabLaboratorio = findViewById(R.id.fabLaboratorio);
+        fabLaboratorio.setVisibility(View.VISIBLE);
+        fabLaboratorio.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, TopLevelActivity.class);
+            startActivity(intent);
+        });
 
         mascotaService = RetrofitClient.getRetrofitInstance().create(MascotaService.class);
 

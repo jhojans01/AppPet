@@ -8,17 +8,23 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.app.AlarmManager;
+import com.google.android.material.appbar.MaterialToolbar;
+
 
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,6 +33,7 @@ import com.example.apppet.network.MedicamentoService;
 import com.example.apppet.network.RetrofitClient;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,6 +53,7 @@ public class RegistrarMedicamentoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_medicamento);
 
+        // Referencias de UI
         etEnfermedad = findViewById(R.id.etEnfermedad);
         etMedicamento = findViewById(R.id.etMedicamento);
         etObservaciones = findViewById(R.id.etObservaciones);
@@ -54,12 +62,15 @@ public class RegistrarMedicamentoActivity extends AppCompatActivity {
         btnGuardar = findViewById(R.id.btnGuardar);
         timePicker.setIs24HourView(true);
 
+        // Toolbar
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Recibe el ID de la mascota
         petId = getIntent().getIntExtra("pet_id", 0);
 
-        btnGuardar.setOnClickListener(v -> guardarMedicamento());
-        Spinner spinnerVia = findViewById(R.id.spinnerVia);
+        // Spinner de vía de administración
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.vias_medicamento,
@@ -68,7 +79,63 @@ public class RegistrarMedicamentoActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerVia.setAdapter(adapter);
 
+        // Acción del botón Guardar
+        btnGuardar.setOnClickListener(v -> guardarMedicamento());
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_registrar_medicamento, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_share) {
+            // Obtener valores de los campos
+            String enfermedad = etEnfermedad.getText().toString().trim();
+            String medicamento = etMedicamento.getText().toString().trim();
+            String observaciones = etObservaciones.getText().toString().trim();
+            String via = spinnerVia.getSelectedItem().toString();
+            String hora = obtenerHoraFormateada();
+
+            // Validación básica
+            if (enfermedad.isEmpty() && medicamento.isEmpty() && observaciones.isEmpty()) {
+                Toast.makeText(this, "Completa al menos un campo antes de compartir.", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            // Construir mensaje
+            String mensaje = "💊 Registro de medicamento:\n\n"
+                    + "🦠 Enfermedad: " + enfermedad + "\n"
+                    + "💊 Medicamento: " + medicamento + "\n"
+                    + "💉 Vía: " + via + "\n"
+                    + "🕒 Hora: " + hora + "\n"
+                    + "📝 Observaciones: " + observaciones;
+
+            // Crear intent para compartir
+            Intent sendIntent = new Intent(Intent.ACTION_SEND);
+            sendIntent.setType("text/plain");
+            sendIntent.putExtra(Intent.EXTRA_TEXT, mensaje);
+            Intent shareIntent = Intent.createChooser(sendIntent, "Compartir síntomas con:");
+            startActivity(shareIntent);
+
+            return true;
+
+        } else if (item.getItemId() == android.R.id.home) {
+            finish(); // flecha de retroceso
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private String obtenerHoraFormateada() {
+        int hour = timePicker.getHour();
+        int minute = timePicker.getMinute();
+        return String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
+    }
+
 
     private void guardarMedicamento() {
         String enfermedad = etEnfermedad.getText().toString().trim();

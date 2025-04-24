@@ -25,7 +25,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/colorAccent"
-        android:layout_marginBottom="16dp"/>i
+        android:layout_marginBottom="16dp"/>
 
     <!-- TextInputLayout para eMail -->
     <com.google.android.material.textfield.TextInputLayout

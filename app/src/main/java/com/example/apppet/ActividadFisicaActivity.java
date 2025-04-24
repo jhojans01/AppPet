@@ -1,6 +1,7 @@
 package com.example.apppet;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apppet.adapters.ActividadAdapter;
 import com.example.apppet.models.Actividad;
+import com.example.apppet.network.ActividadService;
+import com.example.apppet.network.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +22,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 public class ActividadFisicaActivity extends AppCompatActivity {
 
@@ -36,21 +32,6 @@ public class ActividadFisicaActivity extends AppCompatActivity {
     private RecyclerView rvActividades;
     private ActividadAdapter adapter;
     private List<Actividad> actividades = new ArrayList<>();
-
-    // 🔁 Retrofit Interface Interna
-    interface ActividadService {
-        @GET("get_actividad_fisica.php")
-        Call<List<Actividad>> getActividades(@Query("mascota_id") int mascotaId);
-
-        @FormUrlEncoded
-        @POST("insert_actividad_fisica.php")
-        Call<Void> insertarActividad(
-                @Field("mascota_id") int mascotaId,
-                @Field("tipo_actividad") String tipo,
-                @Field("duracion") String duracion,
-                @Field("fecha") String fecha
-        );
-    }
 
     private ActividadService actividadService;
 
@@ -75,16 +56,14 @@ public class ActividadFisicaActivity extends AppCompatActivity {
         rvActividades.setLayoutManager(new LinearLayoutManager(this));
         rvActividades.setAdapter(adapter);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://tuservidor.com/") // 🔁 Reemplázalo con tu URL real
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        actividadService = retrofit.create(ActividadService.class);
+        actividadService = RetrofitClient.getRetrofitInstance().create(ActividadService.class);
 
         cargarActividades();
 
-        btnAgregar.setOnClickListener(v -> registrarActividad());
+        btnAgregar.setOnClickListener(v -> {
+            Log.d("DEBUG_ACTIVIDAD", "Botón presionado");
+            registrarActividad();
+        });
     }
 
     private void cargarActividades() {
@@ -95,12 +74,15 @@ public class ActividadFisicaActivity extends AppCompatActivity {
                     actividades.clear();
                     actividades.addAll(response.body());
                     adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(ActividadFisicaActivity.this, "Sin actividades registradas", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Actividad>> call, Throwable t) {
                 Toast.makeText(ActividadFisicaActivity.this, "Error al cargar actividades", Toast.LENGTH_SHORT).show();
+                Log.e("DEBUG_ACTIVIDAD", "Error al cargar", t);
             }
         });
     }
@@ -115,10 +97,18 @@ public class ActividadFisicaActivity extends AppCompatActivity {
             return;
         }
 
+        Log.d("DEBUG_ACTIVIDAD", "Enviando: " + tipo + ", " + duracion + ", " + fecha);
+
         actividadService.insertarActividad(petId, tipo, duracion, fecha).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                Toast.makeText(ActividadFisicaActivity.this, "✅ Actividad registrada", Toast.LENGTH_SHORT).show();
+                Log.d("DEBUG_ACTIVIDAD", "Código de respuesta: " + response.code());
+                Log.d("DEBUG_ACTIVIDAD", "Body: " + response.body());
+                if (response.code() == 200) {
+                    Toast.makeText(ActividadFisicaActivity.this, "✅ Actividad registrada", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ActividadFisicaActivity.this, "⚠️ Error al registrar: código " + response.code(), Toast.LENGTH_SHORT).show();
+                }
                 cargarActividades();
                 etTipoActividad.setText("");
                 etDuracion.setText("");
@@ -128,9 +118,8 @@ public class ActividadFisicaActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(ActividadFisicaActivity.this, "❌ Error al registrar", Toast.LENGTH_SHORT).show();
+                Log.e("DEBUG_ACTIVIDAD", "Fallo en el registro", t);
             }
         });
     }
 }
-
-

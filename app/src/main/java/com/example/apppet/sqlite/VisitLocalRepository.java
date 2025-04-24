@@ -53,5 +53,28 @@ public class VisitLocalRepository {
         db.close();
         return lista;
     }
+    public void actualizarVisita(Visit visita) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(VisitDbHelper.COLUMN_FECHA, visita.getFecha());
+        values.put(VisitDbHelper.COLUMN_MOTIVO, visita.getMotivo());
+        values.put(VisitDbHelper.COLUMN_OBSERVACIONES, visita.getObservaciones());
+
+        db.update(
+                VisitDbHelper.TABLE_VISITS,
+                values,
+                VisitDbHelper.COLUMN_ID + " = ?",
+                new String[]{String.valueOf(visita.getId())}
+        );
+
+        db.close();
+    }
+    public void eliminarVisita(int visitaId) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(VisitDbHelper.TABLE_VISITS, VisitDbHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(visitaId)});
+        db.close();
+    }
+
 
 }

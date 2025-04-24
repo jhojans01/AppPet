@@ -136,6 +136,16 @@
                 android:text="🐾 Registro de Comportamiento"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_marginTop="8dp" />
+            <Button
+                android:id="@+id/btnVerUltimaActividad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🏃 Ver Actividad Física"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_marginTop="8dp" />
+
+
+
         </LinearLayout>
 
         <!-- GEOLOCALIZACIÓN -->

@@ -8,7 +8,6 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 public interface UsuarioService {
@@ -19,11 +18,10 @@ public interface UsuarioService {
     @POST("usuarios.php")
     Call<Void> insertUser(@Body Usuario usuario);
 
-    @PUT("updateUser.php")
+    @POST("updateUser.php")
     Call<Void> updateUser(@Body Usuario usuario);
 
-    // Método para que el usuario actualice su perfil (solo nombre y email)
-    @PUT("updatePerfil.php")
+    @POST("update_perfil_usuario.php") // ✅ corregido de PUT a POST
     Call<Void> updatePerfil(@Body Usuario usuario);
 
     @HTTP(method = "DELETE", path = "deleteUser.php", hasBody = true)
@@ -35,14 +33,13 @@ public interface UsuarioService {
     @GET("checkEmail.php")
     Call<EmailCheckResponse> checkEmail(@Query("email") String email);
 
-    // Nuevo método para obtener usuario por id
     @GET("getUser.php")
     Call<Usuario> getUserById(@Query("user_id") int userId);
 
     @GET("get_veterinarios.php")
     Call<List<Usuario>> getVeterinarios();
+
     @GET("get_cuidadores.php")
     Call<List<Usuario>> getCuidadores();
-
-
 }
+

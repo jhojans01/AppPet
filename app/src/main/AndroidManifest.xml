@@ -70,6 +70,7 @@
         <!-- Cuidador -->
         <activity android:name=".CuidadoMascotaActivity"/>
         <activity android:name=".ActividadFisicaActivity" />
+        <activity android:name=".HistorialActividadActivity" />
 
 
         <!-- Admin -->
@@ -80,9 +81,13 @@
         <receiver android:name=".notifications.VisitReminderReceiver" />
 
 
-        <receiver android:name=".AlarmaReceiver"
+        <receiver android:name=".AlarmaReceiver" />
 
-/>
+        <activity android:name=".laboratorio.LaboratorioFormActivity"/>
+        <activity android:name=".laboratorio.TopLevelActivity" />
+        <activity android:name=".laboratorio.AnimalCategoryActivity" />
+        <activity android:name=".laboratorio.AnimalDetailActivity" />
+
 
 
 

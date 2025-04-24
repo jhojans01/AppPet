@@ -36,6 +36,9 @@ import com.example.apppet.network.MedicamentoService;
 import com.example.apppet.network.RetrofitClient;
 import com.example.apppet.network.UsuarioService;
 
+import com.example.apppet.models.Actividad;
+import com.example.apppet.network.ActividadService;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -47,9 +50,12 @@ public class PetDetailActivity extends AppCompatActivity {
     private ImageView ivPetImage;
     private TextView tvDetailName, tvDetailSpecies, tvDetailBreed, tvDetailAge, tvCollarId;
     private Button btnViewVaccines, btnControlPeso, btnBehavior, btnVisitasVeterinario,
-            btnVerDieta, btnAsignarCollar, btnVerCollar, btnElegirVet, btnElegirCuidador, btnVerDiagnostico;
+            btnVerDieta, btnAsignarCollar, btnVerCollar, btnElegirVet, btnElegirCuidador, btnVerDiagnostico,btnVerUltimaActividad;
 
     private int petId;
+    private TextView tvUltimaActividad;
+    private ActividadService actividadService;
+
     private Pet pet;
 
     private int collarIdNumerico = 0;
@@ -60,6 +66,8 @@ public class PetDetailActivity extends AppCompatActivity {
     private UsuarioService usuarioService;
     private MascotaService mascotaService;
     private MedicamentoService medicamentoService;
+
+
     private int vetIdActual = 0;
     private int cuidadorIdActual = 0;
 
@@ -77,9 +85,11 @@ public class PetDetailActivity extends AppCompatActivity {
         tvDetailAge = findViewById(R.id.tvDetailAge);
         tvCollarId = findViewById(R.id.tvCollarId);
 
+
         btnViewVaccines = findViewById(R.id.btnViewVaccines);
         btnControlPeso = findViewById(R.id.btnControlPeso);
         btnBehavior = findViewById(R.id.btnBehavior);
+        btnVerUltimaActividad = findViewById(R.id.btnVerUltimaActividad);
         btnVisitasVeterinario = findViewById(R.id.btnVisitasVeterinario);
         btnVerDieta = findViewById(R.id.btnVerDieta);
         btnAsignarCollar = findViewById(R.id.btnAsignarCollar);
@@ -93,6 +103,8 @@ public class PetDetailActivity extends AppCompatActivity {
         usuarioService = RetrofitClient.getRetrofitInstance().create(UsuarioService.class);
         mascotaService = RetrofitClient.getRetrofitInstance().create(MascotaService.class);
         medicamentoService = RetrofitClient.getRetrofitInstance().create(MedicamentoService.class);
+        actividadService = RetrofitClient.getRetrofitInstance().create(ActividadService.class);
+
 
         if (getIntent() != null) {
             petId = getIntent().getIntExtra("pet_id", 0);
@@ -105,8 +117,8 @@ public class PetDetailActivity extends AppCompatActivity {
         btnControlPeso.setOnClickListener(v -> abrir(WeightActivity.class));
         btnBehavior.setOnClickListener(v -> abrir(BehaviorActivity.class));
         btnVisitasVeterinario.setOnClickListener(v -> abrir(VisitsActivity.class));
-
         btnVerDieta.setOnClickListener(v -> dietService.getDietasByPetId(petId).enqueue(new Callback<List<Diet>>() {
+
             @Override
             public void onResponse(Call<List<Diet>> call, Response<List<Diet>> response) {
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
@@ -136,10 +148,13 @@ public class PetDetailActivity extends AppCompatActivity {
         });
 
         btnAsignarCollar.setOnClickListener(v -> mostrarDialogoAsignarCollar());
+        btnVerUltimaActividad.setOnClickListener(v -> mostrarUltimaActividad());
         btnElegirVet.setOnClickListener(v -> mostrarDialogoElegirVet());
         btnElegirCuidador.setOnClickListener(v -> mostrarDialogoElegirCuidador());
-
         btnVerDiagnostico.setOnClickListener(v -> medicamentoService.getMedicamentosByPetId(petId).enqueue(new Callback<List<Medicamento>>() {
+
+
+
             @Override
             public void onResponse(Call<List<Medicamento>> call, Response<List<Medicamento>> response) {
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
@@ -363,4 +378,38 @@ public class PetDetailActivity extends AppCompatActivity {
             }
         });
     }
+    private void mostrarUltimaActividad() {
+        actividadService.getUltimaActividad(petId).enqueue(new Callback<Actividad>() {
+            @Override
+            public void onResponse(Call<Actividad> call, Response<Actividad> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Actividad act = response.body();
+                    String mensaje = "🏃 Actividad: " + act.getTipo_actividad()
+                            + "\n⏱ Duración: " + act.getDuracion() + " min"
+                            + "\n📅 Fecha: " + act.getFecha();
+
+                    new AlertDialog.Builder(PetDetailActivity.this)
+                            .setTitle("Última Actividad Física")
+                            .setMessage(mensaje)
+                            .setPositiveButton("Ver Historial Completo", (dialog, which) -> {
+                                Intent i = new Intent(PetDetailActivity.this, HistorialActividadActivity.class);
+                                i.putExtra("pet_id", petId);
+                                startActivity(i);
+                            })
+                            .setNegativeButton("Cerrar", null)
+                            .show();
+                } else {
+                    Toast.makeText(PetDetailActivity.this, "❌ Sin actividad registrada", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Actividad> call, Throwable t) {
+                Toast.makeText(PetDetailActivity.this, "❌ Error al obtener actividad", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
 }
