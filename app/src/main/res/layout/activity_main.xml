@@ -5,7 +5,8 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,16 +54,26 @@
         android:src="@drawable/chat"
         app:backgroundTint="@color/colorAccent"
         app:tint="@android:color/white"/>
+
+    <!-- FAB Laboratorio, ahora arriba del botón fabAddPet (esquina inferior derecha) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabLaboratorio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|start"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="80dp"
-        android:layout_marginStart="16dp"
         android:src="@drawable/ic_school"
-        app:backgroundTint="@color/green" />
+        app:backgroundTint="@color/colorAccent" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabMascotasPendientes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_pending"
+        app:backgroundTint="@color/green" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

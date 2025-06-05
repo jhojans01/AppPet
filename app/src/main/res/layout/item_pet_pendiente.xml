@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+
+
+    app:cardBackgroundColor="@color/bubbleReceivedColor"
+
+
+    app:strokeColor="@color/colorAccent"
+    app:strokeWidth="1dp"
+
+
+    android:foreground="?attr/selectableItemBackground">
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+android:padding="12dp"
+android:gravity="center_vertical">
+
+<!-- ░░ Foto redonda ░░ -->
+<com.google.android.material.imageview.ShapeableImageView
+    android:id="@+id/ivPetPendiente"
+    android:layout_width="64dp"
+    android:layout_height="64dp"
+    android:layout_marginEnd="12dp"
+    android:scaleType="centerCrop"
+    android:src="@drawable/perritico"
+
+android:background="@drawable/circle_background"
+app:shapeAppearanceOverlay="@style/RoundedFull" />
+
+<!-- ░░ Columna texto + botones ░░ -->
+    <LinearLayout
+        android:layout_width="332dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- nombre -->
+        <TextView
+            android:id="@+id/tvNombrePendiente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Nombre de la mascota"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- especie (pill gris con icono) -->
+        <TextView
+            android:id="@+id/tvEspeciePendiente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/bg_pill_gray"
+
+            android:drawableStart="@drawable/ic_especie"
+            android:drawablePadding="6dp"
+
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:text="Especie: Perro"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
+        <!-- raza -->
+        <TextView
+            android:id="@+id/tvRazaPendiente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/bg_pill_gray"
+
+            android:drawableStart="@drawable/ic_raza"
+            android:drawablePadding="6dp"
+
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:text="Raza: Labrador"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
+        <!-- edad -->
+        <TextView
+            android:id="@+id/tvEdadPendiente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_pill_gray"
+            android:drawableStart="@drawable/ic_edad"
+
+            android:drawablePadding="6dp"
+            android:paddingHorizontal="8dp"
+
+            android:paddingVertical="4dp"
+            android:text="Edad: 3"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
+        <!-- ░░ Botonera centrada ░░ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <!-- ACEPTAR -->
+
+            <!-- RECHAZAR -->
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAceptar"
+                style="@style/AcceptButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:minWidth="120dp"
+            android:text="SI"
+            android:textAllCaps="false"
+            app:icon="@drawable/ic_check"
+            app:iconPadding="4dp"
+            app:iconGravity="textStart"
+            app:shapeCornerFamily="rounded"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRechazar"
+                style="@style/RejectButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:minWidth="120dp"
+            android:text="No"
+            android:textAllCaps="false"
+            app:icon="@drawable/ic_close"
+            app:iconPadding="4dp"
+            app:iconGravity="textStart"
+            app:shapeCornerFamily="rounded" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
+    </com.google.android.material.card.MaterialCardView>

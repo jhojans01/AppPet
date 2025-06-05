@@ -1,6 +1,5 @@
 package com.example.apppet.models;
 
-
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
@@ -23,6 +22,12 @@ public class Pet implements Serializable {
 
     @SerializedName("cuidador_id")
     private int cuidadorId;
+    @SerializedName("activo")
+    private int activo;
+    @SerializedName("estado_asignacion")
+    private String estado_asignacion;
+
+    private int pendiente;
 
     // Getters y Setters
     public int getId() { return id; }
@@ -51,4 +56,21 @@ public class Pet implements Serializable {
 
     public int getCuidadorId() { return cuidadorId; }
     public void setCuidadorId(int cuidadorId) { this.cuidadorId = cuidadorId; }
+
+    public int getPendiente() { return pendiente; }
+    public void setPendiente(int pendiente) { this.pendiente = pendiente; }
+    public int getActivo() {
+        return activo;
+    }
+
+    public void setActivo(int activo) {
+        this.activo = activo;
+    }
+    public String getEstado_asignacion() {
+        return estado_asignacion;
+    }
+
+    public void setEstado_asignacion(String estado_asignacion) {
+        this.estado_asignacion = estado_asignacion;
+    }
 }

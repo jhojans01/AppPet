@@ -83,18 +83,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"/>
         </com.google.android.material.textfield.TextInputLayout>
-        <!-- Spinner para seleccionar Cuidador -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Seleccionar Cuidador"
-            android:layout_marginBottom="4dp"/>
 
-        <Spinner
-            android:id="@+id/spinnerCuidadores"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"/>
+
 
 
     </LinearLayout>

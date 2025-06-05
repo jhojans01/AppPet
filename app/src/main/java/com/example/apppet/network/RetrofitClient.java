@@ -6,7 +6,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RetrofitClient {
 
-    private static final String BASE_URL = "http://10.0.2.2/petapp/"; // Tu URL base para la app
+    private static final String BASE_URL = "http://10.0.2.2/petapp/";
     private static Retrofit retrofit;
 
     private static final String DIRECTIONS_BASE_URL = "https://maps.googleapis.com/maps/api/";

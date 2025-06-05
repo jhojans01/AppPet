@@ -45,6 +45,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import androidx.annotation.Nullable;
+
+
 public class PetDetailActivity extends AppCompatActivity {
 
     private ImageView ivPetImage;
@@ -84,6 +87,9 @@ public class PetDetailActivity extends AppCompatActivity {
         tvDetailBreed = findViewById(R.id.tvDetailBreed);
         tvDetailAge = findViewById(R.id.tvDetailAge);
         tvCollarId = findViewById(R.id.tvCollarId);
+        TextView tvVeterinarioAsignado = findViewById(R.id.tvVeterinarioAsignado);
+        TextView tvCuidadorAsignado = findViewById(R.id.tvCuidadorAsignado);
+
 
 
         btnViewVaccines = findViewById(R.id.btnViewVaccines);
@@ -97,6 +103,8 @@ public class PetDetailActivity extends AppCompatActivity {
         btnElegirVet = findViewById(R.id.btnElegirVet);
         btnVerDiagnostico = findViewById(R.id.btnVerDiagnostico);
         btnElegirCuidador = findViewById(R.id.btnElegirCuidador);
+        Button btnChatVet = findViewById(R.id.btnChatVet);
+        Button btnChatCuidador = findViewById(R.id.btnChatCuidador);
 
         dietService = RetrofitClient.getRetrofitInstance().create(DietService.class);
         collarService = RetrofitClient.getRetrofitInstance().create(CollarService.class);
@@ -136,6 +144,28 @@ public class PetDetailActivity extends AppCompatActivity {
                 Toast.makeText(PetDetailActivity.this, "Error al obtener dietas", Toast.LENGTH_SHORT).show();
             }
         }));
+
+        btnChatVet.setOnClickListener(v -> {
+            if (vetIdActual > 0) {
+                Intent i = new Intent(PetDetailActivity.this, ChatActivity.class);
+                i.putExtra("loggedUserId", pet.getUserId());  // propietario
+                i.putExtra("otherUserId", vetIdActual);       // veterinario asignado
+                startActivity(i);
+            } else {
+                Toast.makeText(this, "No hay veterinario asignado", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnChatCuidador.setOnClickListener(v -> {
+            if (cuidadorIdActual > 0) {
+                Intent i = new Intent(PetDetailActivity.this, ChatActivity.class);
+                i.putExtra("loggedUserId", pet.getUserId());      // propietario
+                i.putExtra("otherUserId", cuidadorIdActual);      // cuidador asignado
+                startActivity(i);
+            } else {
+                Toast.makeText(this, "No hay cuidador asignado", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         btnVerCollar.setOnClickListener(v -> {
             if (collarIdNumerico > 0) {
@@ -180,9 +210,8 @@ public class PetDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Pet> call, Response<Pet> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    pet = response.body(); // ¡Importante! Aquí se actualiza el objeto `pet` global
+                    pet = response.body();
 
-                    // 🔥 NUEVO: Guardar vet y cuidador actuales
                     vetIdActual = pet.getVetId();
                     cuidadorIdActual = pet.getCuidadorId();
 
@@ -198,6 +227,51 @@ public class PetDetailActivity extends AppCompatActivity {
                     } else {
                         ivPetImage.setImageResource(R.drawable.perritico);
                     }
+
+                    // Veterinario asignado
+                    TextView tvVeterinarioAsignado = findViewById(R.id.tvVeterinarioAsignado);
+                    if (vetIdActual > 0) {
+                        usuarioService.getUserById(vetIdActual).enqueue(new Callback<Usuario>() {
+                            @Override
+                            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                                if (response.isSuccessful() && response.body() != null) {
+                                    tvVeterinarioAsignado.setText("Veterinario: " + response.body().getNombre());
+                                } else {
+                                    tvVeterinarioAsignado.setText("Veterinario: No asignado");
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Usuario> call, Throwable t) {
+                                tvVeterinarioAsignado.setText("Veterinario: Error");
+                            }
+                        });
+                    } else {
+                        tvVeterinarioAsignado.setText("Veterinario: No asignado");
+                    }
+
+                    // Cuidador asignado
+                    TextView tvCuidadorAsignado = findViewById(R.id.tvCuidadorAsignado);
+                    if (cuidadorIdActual > 0) {
+                        usuarioService.getUserById(cuidadorIdActual).enqueue(new Callback<Usuario>() {
+                            @Override
+                            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                                if (response.isSuccessful() && response.body() != null) {
+                                    tvCuidadorAsignado.setText("Cuidador: " + response.body().getNombre());
+                                } else {
+                                    tvCuidadorAsignado.setText("Cuidador: No asignado");
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Usuario> call, Throwable t) {
+                                tvCuidadorAsignado.setText("Cuidador: Error");
+                            }
+                        });
+                    } else {
+                        tvCuidadorAsignado.setText("Cuidador: No asignado");
+                    }
+
                 } else {
                     Toast.makeText(PetDetailActivity.this, "❌ Error al cargar datos de mascota", Toast.LENGTH_SHORT).show();
                 }
@@ -209,6 +283,7 @@ public class PetDetailActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
     private void mostrarDialogoElegirCuidador() {
@@ -284,41 +359,66 @@ public class PetDetailActivity extends AppCompatActivity {
     }
 
 
-    private void actualizarCamposPet(Integer nuevoCuidadorId, Integer nuevoVetId) {
+    private void actualizarCamposPet(@Nullable Integer nuevoCuidadorId,
+                                     @Nullable Integer nuevoVetId) {
+
         mascotaService.getPetById(petId).enqueue(new Callback<Pet>() {
             @Override
             public void onResponse(Call<Pet> call, Response<Pet> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Pet p = response.body(); // Obtenemos la versión actual desde servidor
-
-                    if (nuevoCuidadorId != null) p.setCuidadorId(nuevoCuidadorId);
-                    if (nuevoVetId != null) p.setVetId(nuevoVetId);
-
-                    completarCamposObligatorios(p);
-
-                    Log.d("DEBUG_JSON_PET", new Gson().toJson(p));
-
-                    mascotaService.updatePet(p).enqueue(new Callback<Void>() {
-                        @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
-                            Toast.makeText(PetDetailActivity.this, "✅ Pet actualizada correctamente", Toast.LENGTH_SHORT).show();
-                            cargarMascotaDesdeServidor();
-                        }
-
-                        @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
-                            Toast.makeText(PetDetailActivity.this, "❌ Error al actualizar", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                } else {
-                    Toast.makeText(PetDetailActivity.this, "❌ Error al obtener mascota", Toast.LENGTH_SHORT).show();
+                if (!response.isSuccessful() || response.body() == null) {
+                    Toast.makeText(PetDetailActivity.this,
+                            "❌ Error al obtener mascota", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                Pet p = response.body();   // copia fresca del servidor
+
+                /* ---- 1. Asignaciones solicitadas por el propietario ---- */
+                if (nuevoCuidadorId != null) {
+                    p.setCuidadorId(nuevoCuidadorId);
+
+                    // CUANDO el dueño “propone” un cuidador la mascota pasa a pendiente
+                    p.setEstado_asignacion("pendiente");
+                    p.setPendiente(1);
+                }
+
+                if (nuevoVetId != null) {
+                    p.setVetId(nuevoVetId);
+                    // Aquí no cambiamos estado_asignacion: el veto del veterinario
+                    // no influye en el flujo de “aceptación de cuidador”.
+                }
+
+                /* ---- 2. Rellenar campos que tu backend exige (no null) ---- */
+                completarCamposObligatorios(p);
+
+                Log.d("DEBUG_JSON_PET", new Gson().toJson(p));
+
+                /* ---- 3. Enviar PUT al servidor ---- */
+                mascotaService.updatePet(p).enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> res) {
+                        if (res.isSuccessful()) {
+                            Toast.makeText(PetDetailActivity.this,
+                                    "✅ Mascota actualizada", Toast.LENGTH_SHORT).show();
+                            cargarMascotaDesdeServidor();     // refrescar datos en pantalla
+                        } else {
+                            Toast.makeText(PetDetailActivity.this,
+                                    "❌ Error (código " + res.code() + ")", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(PetDetailActivity.this,
+                                "❌ Fallo de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
             public void onFailure(Call<Pet> call, Throwable t) {
-                Toast.makeText(PetDetailActivity.this, "❌ Fallo de conexión", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PetDetailActivity.this,
+                        "❌ Fallo de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -409,7 +509,4 @@ public class PetDetailActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
 }

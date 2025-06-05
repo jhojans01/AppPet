@@ -1,62 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bubbleReceivedColor"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="@color/background"
+    android:fillViewport="true">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_boton_medicamento"
+        android:padding="24dp"
+        android:elevation="2dp">
 
-        <ImageView
-            android:id="@+id/ivPetImage"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_pet_placeholder"
-            android:scaleType="centerCrop" />
+        <!-- Imagen con sombra y borde redondeado -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:cardCornerRadius="75dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="20dp">
 
+            <ImageView
+                android:id="@+id/ivPetImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_pending"
+                android:scaleType="centerCrop" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Nombre destacado -->
         <TextView
             android:id="@+id/tvNombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nombre"
-            android:textSize="20sp"
+            android:text="Luna 🐾"
+            android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_marginBottom="8dp" />
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginBottom="16dp" />
 
-        <TextView
-            android:id="@+id/tvEspecie"
-            android:layout_width="wrap_content"
+        <!-- Ficha técnica -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Especie"
-            android:layout_marginBottom="4dp" />
+            android:orientation="vertical"
+            android:background="@drawable/bg_pill_gray"
+            android:padding="16dp"
+            android:layout_marginBottom="24dp"
+            android:elevation="1dp">
 
-        <TextView
-            android:id="@+id/tvRaza"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Raza"
-            android:layout_marginBottom="4dp" />
+            <TextView
+                android:id="@+id/tvEspecie"
+                style="@style/PetDetailInfo"
+                android:text="Especie: Canina" />
 
-        <TextView
-            android:id="@+id/tvEdad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edad"
-            android:layout_marginBottom="24dp" />
+            <TextView
+                android:id="@+id/tvRaza"
+                style="@style/PetDetailInfo"
+                android:text="Raza: Labrador" />
 
-        <Button
+            <TextView
+                android:id="@+id/tvEdad"
+                style="@style/PetDetailInfo"
+                android:text="Edad: 3 años" />
+        </LinearLayout>
+
+        <!-- Botón principal -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAgregarActividad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="💪 Agregar Actividad Física"
-            android:backgroundTint="@color/colorPrimary"
-            android:textColor="@android:color/white" />
+            android:text="💪 Registrar Actividad"
+            android:textAllCaps="false"
+            style="@style/PrimaryButtonStyle"
+            app:icon="@drawable/ic_add"
+            app:iconPadding="8dp"
+            app:iconGravity="textStart" />
 
     </LinearLayout>
 </ScrollView>

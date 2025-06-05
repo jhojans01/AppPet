@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -96,7 +97,8 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
     public static class PetViewHolder extends RecyclerView.ViewHolder {
         ImageView ivPetImage;
         TextView tvName, tvSpecies, tvBreed, tvAge;
-        Button btnEdit, btnDelete;
+        ImageButton btnEdit, btnDelete;
+
 
         public PetViewHolder(@NonNull View itemView) {
             super(itemView);

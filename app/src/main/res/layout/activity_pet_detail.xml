@@ -136,6 +136,7 @@
                 android:text="🐾 Registro de Comportamiento"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_marginTop="8dp" />
+
             <Button
                 android:id="@+id/btnVerUltimaActividad"
                 android:layout_width="match_parent"
@@ -143,9 +144,6 @@
                 android:text="🏃 Ver Actividad Física"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_marginTop="8dp" />
-
-
-
         </LinearLayout>
 
         <!-- GEOLOCALIZACIÓN -->
@@ -191,40 +189,92 @@
 
         <!-- VETERINARIO -->
         <TextView
-            android:text="👩‍⚕️ Asignación de Veterinario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="👩‍⚕️ Asignación de Veterinario"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/colorPrimaryDark"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp" />
 
-        <Button
-            android:id="@+id/btnElegirVet"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Elegir Veterinario"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+            android:orientation="vertical"
+            android:background="@drawable/rounded_card_bg"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp">
 
-        <!-- Asignación de Cuidador -->
+            <TextView
+                android:id="@+id/tvVeterinarioAsignado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Veterinario: No asignado"
+                android:textStyle="italic"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/btnElegirVet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Elegir Veterinario"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+            <Button
+                android:id="@+id/btnChatVet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="💬 Chatear con Veterinario"
+                android:backgroundTint="@color/green"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <!-- CUIDADOR -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="🧑‍🏫 Asignación de Cuidador"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_marginTop="24dp"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp" />
 
-        <Button
-            android:id="@+id/btnElegirCuidador"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ELEGIR CUIDADOR"
-            android:backgroundTint="@color/colorAccent"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="8dp" />
+            android:orientation="vertical"
+            android:background="@drawable/rounded_card_bg"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp">
 
+            <TextView
+                android:id="@+id/tvCuidadorAsignado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cuidador: No asignado"
+                android:textStyle="italic"
+                android:textColor="@android:color/black" />
 
+            <Button
+                android:id="@+id/btnElegirCuidador"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Elegir Cuidador"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btnChatCuidador"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="💬 Chatear con Cuidador"
+                android:backgroundTint="@color/green"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

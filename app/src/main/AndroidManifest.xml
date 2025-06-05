@@ -54,6 +54,8 @@
         <!-- Chat -->
         <activity android:name=".ChatActivity" />
         <activity android:name=".ChatListActivity" />
+        <activity android:name=".ChatListCuidadorActivity" />
+
 
         <!-- Funcionalidades mascota -->
         <activity android:name=".PetDetailActivity" />
@@ -88,7 +90,7 @@
         <activity android:name=".laboratorio.AnimalCategoryActivity" />
         <activity android:name=".laboratorio.AnimalDetailActivity" />
 
-
+        <activity android:name=".MascotasPendientesActivity" />
 
 
     </application>

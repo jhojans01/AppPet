@@ -111,13 +111,16 @@ public class LoginActivity extends AppCompatActivity {
                     } else if ("veterinario".equalsIgnoreCase(userRole)) {
                         Toast.makeText(LoginActivity.this, "Bienvenido Veterinario", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LoginActivity.this, VeterinarioActivity.class);
-                        intent.putExtra("loggedUserId", userResponse.getId()); // Opcional, por si lo usas
+                        intent.putExtra("loggedUserId", userResponse.getId());
                         startActivity(intent);
-
+                    } else if ("cuidador".equalsIgnoreCase(userRole)) {
+                        Toast.makeText(LoginActivity.this, "Bienvenido Cuidador", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));  // 👈 O manda a otra si quieres
                     } else {
                         Toast.makeText(LoginActivity.this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     }
+
 
 
                     finish();

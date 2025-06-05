@@ -21,7 +21,7 @@ public interface UsuarioService {
     @POST("updateUser.php")
     Call<Void> updateUser(@Body Usuario usuario);
 
-    @POST("update_perfil_usuario.php") // ✅ corregido de PUT a POST
+    @POST("update_perfil_usuario.php")
     Call<Void> updatePerfil(@Body Usuario usuario);
 
     @HTTP(method = "DELETE", path = "deleteUser.php", hasBody = true)

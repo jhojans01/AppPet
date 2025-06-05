@@ -4,7 +4,8 @@
     android:id="@+id/layoutVisits"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/bubbleReceivedColor">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewVisits"
@@ -21,13 +22,7 @@
         android:contentDescription="@string/add_visit"
         app:backgroundTint="@color/colorAccent"
         app:tint="@android:color/white" />
-    <Button
-        android:id="@+id/btnVerificar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Verificar DB"
-        android:layout_margin="16dp"
-        />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

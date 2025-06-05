@@ -45,5 +45,11 @@ public interface MascotaService {
     // ✅ Eliminar mascota
     @HTTP(method = "DELETE", path = "deletePet.php", hasBody = true)
     Call<Void> deletePet(@Body Pet pet);
+    @GET("mascotas.php")
+    Call<List<Pet>> getMascotasAceptadasCuidador(@Query("cuidador_id") int cuidadorId, @Query("estado_asignacion") String estado);
+    @GET("mascotas.php")
+    Call<List<Pet>> getMascotasPendientes(@Query("cuidador_id") int cuidadorId, @Query("estado_asignacion") String estado);
+
+
 }
 

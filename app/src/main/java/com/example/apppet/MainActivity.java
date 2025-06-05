@@ -3,6 +3,7 @@ package com.example.apppet;
 import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -10,7 +11,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -18,12 +21,17 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apppet.adapters.PetAdapter;
 import com.example.apppet.laboratorio.TopLevelActivity;
+import com.example.apppet.models.Message;
+import com.example.apppet.models.MessageCheckResponse;
 import com.example.apppet.models.Pet;
+import com.example.apppet.network.ChatService;
 import com.example.apppet.network.MascotaService;
 import com.example.apppet.network.RetrofitClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -45,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btnProfile;
     private FloatingActionButton fabAddPet, fabChat;
+    private FloatingActionButton fabMascotasPendientes;
     private RecyclerView recyclerViewPets;
     private PetAdapter petAdapter;
     private List<Pet> petList = new ArrayList<>();
@@ -55,6 +64,17 @@ public class MainActivity extends AppCompatActivity {
     private int userId;
 
     private String encodedImage = null;
+    private Handler pollingHandler = new Handler();
+    private Runnable pollingRunnable;
+    private static final int POLLING_INTERVAL = 8000; // 8 segundos
+
+    private int loggedUserId;  // Ya debes tenerlo al loguearte
+    private String loggedUserRole; // Ya debes tenerlo también (propietario, veterinario, etc.)
+    private int lastMessageId = -1; // ID del último mensaje notificado
+    private int ultimoMensajeNotificadoId = -1; // <- Guardamos el último mensaje que notificamos
+
+    private int mensajesPendientes = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +83,22 @@ public class MainActivity extends AppCompatActivity {
 
         crearCanalNotificaciones();
         pedirPermisoNotificaciones();
+        Log.d("MainActivity", "userId: " + userId + ", userRole: " + userRole);
 
         prefs = getSharedPreferences("USER_DATA", MODE_PRIVATE);
         userRole = prefs.getString("role", "");
         userId = prefs.getInt("user_id", 0);
+        Log.d("MainActivity", "userId: " + userId + ", userRole: " + userRole);
+
+        if ("propietario".equalsIgnoreCase(userRole) || "cuidador".equalsIgnoreCase(userRole)) {
+            startPollingForMessages();
+        }
+
 
         btnProfile = findViewById(R.id.btnProfile);
         btnProfile.setVisibility(userRole.equalsIgnoreCase("propietario") ? View.VISIBLE : View.GONE);
         btnProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
+
         FloatingActionButton fabLaboratorio = findViewById(R.id.fabLaboratorio);
         fabLaboratorio.setVisibility(View.VISIBLE);
         fabLaboratorio.setOnClickListener(v -> {
@@ -106,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             }
+
         });
         recyclerViewPets.setAdapter(petAdapter);
 
@@ -120,17 +149,149 @@ public class MainActivity extends AppCompatActivity {
         }
 
         fabChat = findViewById(R.id.fabChat);
-        if (userRole.equalsIgnoreCase("propietario")) {
+        if (userRole.equalsIgnoreCase("cuidador")) {
             fabChat.setVisibility(View.VISIBLE);
             fabChat.setOnClickListener(v -> {
-                Intent intent = new Intent(this, VeterinarianListActivity.class);
+                Intent intent = new Intent(this, ChatListCuidadorActivity.class);
                 intent.putExtra("loggedUserId", userId);
                 startActivity(intent);
             });
         } else {
-            fabChat.setVisibility(View.GONE);
+            fabChat.setVisibility(View.GONE); // Propietario y otros roles no lo ven
+        }
+        fabMascotasPendientes = findViewById(R.id.fabMascotasPendientes);
+        if (userRole.equalsIgnoreCase("cuidador")) {
+            fabMascotasPendientes.setVisibility(View.VISIBLE);
+            fabMascotasPendientes.setOnClickListener(v -> {
+                Intent intent = new Intent(this, MascotasPendientesActivity.class);
+                intent.putExtra("cuidador_id", userId);
+                startActivity(intent);
+            });
+        } else {
+            fabMascotasPendientes.setVisibility(View.GONE);
+        }
+
+    }
+    private void startPollingForMessages() {
+        pollingRunnable = new Runnable() {
+            @Override
+            public void run() {
+                checkForNewMessages();
+                pollingHandler.postDelayed(this, POLLING_INTERVAL);
+            }
+        };
+        pollingHandler.post(pollingRunnable);
+    }
+
+    private void checkForNewMessages() {
+        ChatService chatService = RetrofitClient.getRetrofitInstance().create(ChatService.class);
+        Call<Integer> call = chatService.verificarMensajesNuevos(userId);
+
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    int mensajesNuevos = response.body();
+                    Log.d("Polling", "Mensajes nuevos: " + mensajesNuevos);
+
+                    if (mensajesNuevos > 0) {
+                        if ("propietario".equalsIgnoreCase(userRole)) {
+                            showNewMessageNotification("Nuevo mensaje de tu veterinario", "Tienes " + mensajesNuevos + " mensajes nuevos");
+                        } else if ("cuidador".equalsIgnoreCase(userRole)) {
+                            showNewMessageNotification("Nuevo mensaje de tu propietario", "Tienes " + mensajesNuevos + " mensajes nuevos");
+                        }
+                        marcarMensajesComoLeidos();
+                    }
+                } else {
+                    Log.e("Polling", "Error en la respuesta: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Log.e("Polling", "Fallo: " + t.getMessage());
+            }
+        });
+    }
+
+
+    private void marcarMensajesComoLeidos() {
+        ChatService chatService = RetrofitClient.getRetrofitInstance().create(ChatService.class);
+        Call<Void> call = chatService.marcarMensajesComoLeidos(userId);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.d("Polling", "Mensajes marcados como leídos");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("Polling", "Error al marcar como leídos: " + t.getMessage());
+            }
+        });
+    }
+
+
+
+
+
+
+    // Para casos simples (sin abrir chat)
+    private void showNewMessageNotification(String title, String body) {
+        showNewMessageNotification(title, body, -1);
+    }
+
+    // Para casos donde sí sabemos el senderId
+    private void showNewMessageNotification(String senderName, String messageText, int senderId) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "medicamento_channel")
+                .setSmallIcon(R.drawable.chat)
+                .setContentTitle(senderName)
+                .setContentText(messageText)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true);
+
+        Intent intent;
+        if (senderId != -1) {
+            // Si tenemos senderId válido, abrimos el chat directamente
+            intent = new Intent(this, ChatActivity.class);
+            intent.putExtra("otherUserId", senderId);
+        } else {
+            // Si no, solo abre MainActivity
+            intent = new Intent(this, MainActivity.class);
+        }
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+        builder.setContentIntent(pendingIntent);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            notificationManager.notify(2001, builder.build());
         }
     }
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopPollingForMessages();
+    }
+
+    private void stopPollingForMessages() {
+        if (pollingHandler != null && pollingRunnable != null) {
+            pollingHandler.removeCallbacks(pollingRunnable);
+        }
+    }
+
+
 
 
     private void crearCanalNotificaciones() {
@@ -201,7 +362,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         new AlertDialog.Builder(this)
-                .setTitle("Agregar Mascota")
+                .setTitle("")
                 .setView(view)
                 .setPositiveButton("Agregar", (dialog, which) -> {
                     Pet nueva = new Pet();
@@ -213,6 +374,7 @@ public class MainActivity extends AppCompatActivity {
                     nueva.setImageBase64(encodedImage);
                     nueva.setVetId(-1);
                     nueva.setCuidadorId(-1);
+                    //nueva.setCuidadorId(39);
 
                     mascotaService.insertPet(nueva).enqueue(new Callback<Void>() {
                         @Override
@@ -249,7 +411,7 @@ public class MainActivity extends AppCompatActivity {
         etEdad.setText(String.valueOf(pet.getEdad()));
 
         new AlertDialog.Builder(this)
-                .setTitle("Editar Mascota")
+                .setTitle("")
                 .setView(view)
                 .setPositiveButton("Guardar", (dialog, which) -> {
                     pet.setNombre(etNombre.getText().toString().trim());
@@ -299,7 +461,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cargarMascotasDelCuidador(int cuidadorId) {
-        mascotaService.getPetsByCuidador(cuidadorId).enqueue(new Callback<List<Pet>>() {
+        mascotaService.getMascotasAceptadasCuidador(cuidadorId, "aceptada").enqueue(new Callback<List<Pet>>() {
             @Override
             public void onResponse(Call<List<Pet>> call, Response<List<Pet>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -335,4 +497,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if ("cuidador".equalsIgnoreCase(userRole)) {
+            cargarMascotasDelCuidador(userId); // 🔄 Recarga la lista al volver
+        }
+    }
+
 }

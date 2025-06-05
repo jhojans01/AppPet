@@ -6,8 +6,8 @@
     android:id="@+id/layoutAdmin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".admin.AdminDashboardActivity">
+    tools:context=".admin.AdminDashboardActivity"
+    android:background="@color/white">
 
     <!-- Barra superior (MaterialToolbar) -->
     <com.google.android.material.appbar.MaterialToolbar

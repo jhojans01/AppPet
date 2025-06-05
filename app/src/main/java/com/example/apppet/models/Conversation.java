@@ -1,9 +1,18 @@
 package com.example.apppet.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Conversation {
+    @SerializedName("ownerId")
     private int ownerId;
+
+    @SerializedName("ownerName")
     private String ownerName;
+
+    @SerializedName("lastMessage")
     private String lastMessage;
+
+    @SerializedName("timestamp")
     private String timestamp;
 
     public Conversation(int ownerId, String ownerName, String lastMessage, String timestamp) {
@@ -13,7 +22,6 @@ public class Conversation {
         this.timestamp = timestamp;
     }
 
-    // Getters (y constructor vacío si deseas)
     public int getOwnerId() { return ownerId; }
     public String getOwnerName() { return ownerName; }
     public String getLastMessage() { return lastMessage; }

@@ -2,8 +2,10 @@ package com.example.apppet.network;
 
 import com.example.apppet.models.Conversation;
 import com.example.apppet.models.Message;
+import com.example.apppet.models.MessageCheckResponse;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -23,5 +25,19 @@ public interface ChatService {
                                     @Query("receiver_id") int receiverId);
     @GET("obtenerConversaciones.php")
     Call<List<Conversation>> getConversations(@Query("vet_id") int vetId);
+
+    @GET("obtenerConversacionesCuidador.php")
+    Call<List<Conversation>> getConversationsCuidador(@Query("cuidador_id") int cuidadorId);
+
+    @GET("obtenerMensajesRecientes.php")
+    Call<List<Message>> getLatestMessages(@Query("receiver_id") int receiverId);
+    @GET("verificarMensajesNuevos.php")
+    Call<Integer> verificarMensajesNuevos(@Query("receiver_id") int receiverId);
+    @GET("marcarMensajesComoLeidos.php")
+    Call<Void> marcarMensajesComoLeidos(@Query("receiver_id") int receiverId);
+
+
+
+
 
 }
